@@ -142,7 +142,6 @@ class _HeaderState extends State<Header> {
             ),
           ),
 
-          // 🔹 Campo de busca
           Padding(
             padding: const EdgeInsets.only(
               left: 32,

@@ -4,6 +4,7 @@ import 'package:events_app/components/navbar.dart';
 import 'package:events_app/models/event.dart';
 import 'package:events_app/services/event.dart';
 import 'package:events_app/services/favorite_handler.dart';
+import 'package:events_app/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class EventSection extends StatefulWidget {
@@ -89,7 +90,7 @@ class _EventSectionState extends State<EventSection> {
           child: Text(
             widget.title,
             style: const TextStyle(
-              color: Colors.black,
+              color: blackColor,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),

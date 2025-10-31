@@ -1,3 +1,4 @@
+import 'package:events_app/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,7 +22,7 @@ class HeaderLocation extends StatelessWidget {
           Container(
             height: 150,
             width: double.infinity,
-            color: const Color.fromRGBO(33, 150, 243, 1),
+            color: primaryColor,
             padding: const EdgeInsets.only(top: 32, left: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +30,7 @@ class HeaderLocation extends StatelessWidget {
                 Text(
                   'Olá!',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: whiteColor,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -38,7 +39,7 @@ class HeaderLocation extends StatelessWidget {
                 Text(
                   text,
                   style: TextStyle(
-                    color: Color.fromRGBO(144, 202, 249, 1),
+                    color: primaryLightColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -55,7 +56,7 @@ class HeaderLocation extends StatelessWidget {
               width: screenWidth > 400 ? screenWidth - 64 : screenWidth - 32,
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
               decoration: BoxDecoration(
-                color: const Color.fromRGBO(21, 101, 192, 1),
+                color: primaryDarkColor,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
@@ -76,12 +77,12 @@ class HeaderLocation extends StatelessWidget {
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          color: Colors.white.withOpacity(0.1),
+                          color: whiteColor.withOpacity(0.1),
                           height: 60,
                           width: 60,
                           child: const Icon(
                             Icons.location_on,
-                            color: Colors.white,
+                            color: whiteColor,
                           ),
                         );
                       },
@@ -95,7 +96,7 @@ class HeaderLocation extends StatelessWidget {
                         Text(
                           'Aqui é onde você está!',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: whiteColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -103,7 +104,7 @@ class HeaderLocation extends StatelessWidget {
                         SizedBox(height: 4),
                         Text(
                           'Liberdade, São Paulo.',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          style: TextStyle(color: whiteColor, fontSize: 14),
                         ),
                       ],
                     ),

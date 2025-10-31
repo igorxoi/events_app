@@ -1,3 +1,4 @@
+import 'package:events_app/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class Navbar extends StatelessWidget {
@@ -15,7 +16,7 @@ class Navbar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 12),
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: whiteColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
@@ -75,18 +76,14 @@ class Navbar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 24,
-            color: isSelected ? const Color(0xFF2196F3) : Colors.black,
-          ),
+          Icon(icon, size: 24, color: isSelected ? primaryColor : blackColor),
           const SizedBox(height: 4),
           Text(
             label,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: isSelected ? const Color(0xFF2196F3) : Colors.black,
+              color: isSelected ? primaryColor : blackColor,
             ),
           ),
         ],

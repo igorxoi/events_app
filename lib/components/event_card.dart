@@ -1,5 +1,6 @@
 import 'package:events_app/models/event.dart';
 import 'package:events_app/services/favorite_handler.dart';
+import 'package:events_app/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
@@ -14,11 +15,11 @@ class EventCard extends StatelessWidget {
       width: 260,
       height: 180,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: whiteColor,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: blackColor.withOpacity(0.1),
             blurRadius: 4,
             offset: Offset(0, 2),
           ),
@@ -78,7 +79,7 @@ class EventCard extends StatelessWidget {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 21, 101, 192),
+                color: primaryDarkColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               alignment: Alignment.center,
@@ -88,7 +89,7 @@ class EventCard extends StatelessWidget {
                   Text(
                     getDay(event.date),
                     style: TextStyle(
-                      color: Colors.white,
+                      color: whiteColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -97,7 +98,7 @@ class EventCard extends StatelessWidget {
                   Text(
                     getMonthAbbreviation(event.date),
                     style: TextStyle(
-                      color: Colors.white,
+                      color: whiteColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
                     ),
@@ -123,11 +124,11 @@ class EventCard extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: whiteColor,
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
+                      color: blackColor.withOpacity(0.15),
                       blurRadius: 4,
                       offset: const Offset(0, 2),
                     ),
@@ -135,7 +136,7 @@ class EventCard extends StatelessWidget {
                 ),
                 child: Icon(
                   event.isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: Colors.red,
+                  color: favoriteColor,
                   size: 20,
                 ),
               ),

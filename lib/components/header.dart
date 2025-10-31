@@ -1,5 +1,6 @@
 import 'package:events_app/models/category.dart';
 import 'package:events_app/services/category.dart';
+import 'package:events_app/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class Header extends StatefulWidget {
@@ -65,7 +66,7 @@ class _HeaderState extends State<Header> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: const Color.fromRGBO(33, 150, 243, 1),
+      color: primaryColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -77,7 +78,7 @@ class _HeaderState extends State<Header> {
                 Text(
                   title,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: whiteColor,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -86,7 +87,7 @@ class _HeaderState extends State<Header> {
                 Text(
                   subtitle,
                   style: TextStyle(
-                    color: Color.fromRGBO(144, 202, 249, 1),
+                    color: primaryLightColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -133,8 +134,8 @@ class _HeaderState extends State<Header> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: isSelected
-                                ? Colors.white
-                                : const Color.fromRGBO(21, 101, 192, 1),
+                                ? whiteColor
+                                : primaryDarkColor,
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -144,9 +145,7 @@ class _HeaderState extends State<Header> {
                           child: Text(
                             category.name,
                             style: TextStyle(
-                              color: isSelected
-                                  ? const Color.fromRGBO(21, 101, 192, 1)
-                                  : Colors.white,
+                              color: isSelected ? primaryDarkColor : whiteColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 14,
                             ),
@@ -173,14 +172,14 @@ class _HeaderState extends State<Header> {
                   hintText: 'Procure o evento pelo nome',
                   hintStyle: TextStyle(color: Colors.white70, fontSize: 14),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: whiteColor),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
+                    borderSide: BorderSide(color: whiteColor),
                   ),
-                  prefixIcon: Icon(Icons.search, color: Colors.white),
+                  prefixIcon: Icon(Icons.search, color: whiteColor),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: whiteColor),
               ),
             ),
         ],

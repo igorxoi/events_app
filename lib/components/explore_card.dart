@@ -1,5 +1,6 @@
 import 'package:events_app/models/event.dart';
 import 'package:events_app/services/favorite_handler.dart';
+import 'package:events_app/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,7 +17,7 @@ class ExploreCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: whiteColor,
         borderRadius: BorderRadius.circular(8),
         boxShadow: const [
           BoxShadow(
@@ -59,7 +60,7 @@ class ExploreCard extends StatelessWidget {
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: whiteColor,
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
@@ -71,7 +72,7 @@ class ExploreCard extends StatelessWidget {
                     ),
                     child: Icon(
                       event.isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: Colors.red,
+                      color: favoriteColor,
                       size: 20,
                     ),
                   ),
@@ -95,7 +96,7 @@ class ExploreCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
-                      color: Colors.black,
+                      color: blackColor,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -105,7 +106,7 @@ class ExploreCard extends StatelessWidget {
                       Icon(
                         Icons.calendar_today_outlined,
                         size: 16,
-                        color: Color(0xFF666666),
+                        color: textColorPrimary,
                       ),
                       SizedBox(width: 4),
                       Expanded(
@@ -114,7 +115,7 @@ class ExploreCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                            color: Color(0xFF666666),
+                            color: textColorPrimary,
                             fontSize: 12,
                           ),
                         ),
@@ -128,7 +129,7 @@ class ExploreCard extends StatelessWidget {
                       Icon(
                         Icons.location_on_outlined,
                         size: 16,
-                        color: Color(0xFF666666),
+                        color: textColorPrimary,
                       ),
                       SizedBox(width: 4),
                       Expanded(
@@ -137,7 +138,7 @@ class ExploreCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                            color: Color(0xFF666666),
+                            color: textColorPrimary,
                             fontSize: 12,
                           ),
                         ),
@@ -151,7 +152,7 @@ class ExploreCard extends StatelessWidget {
                       Icon(
                         Icons.access_time_outlined,
                         size: 16,
-                        color: Color(0xFF666666),
+                        color: textColorPrimary,
                       ),
                       SizedBox(width: 4),
                       Expanded(
@@ -160,7 +161,7 @@ class ExploreCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
-                            color: Color(0xFF666666),
+                            color: textColorPrimary,
                             fontSize: 12,
                           ),
                         ),
@@ -175,10 +176,7 @@ class ExploreCard extends StatelessWidget {
                     },
                     child: const Text(
                       'ver detalhes',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Color.fromRGBO(21, 101, 192, 1),
-                      ),
+                      style: TextStyle(fontSize: 12, color: primaryDarkColor),
                     ),
                   ),
                 ],

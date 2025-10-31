@@ -1,11 +1,13 @@
 import 'package:events_app/models/event.dart';
+import 'package:events_app/services/favorite_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ExploreCard extends StatelessWidget {
   final Event event;
+  final VoidCallback? onFavoriteToggled;
 
-  const ExploreCard({super.key, required this.event});
+  const ExploreCard({super.key, required this.event, this.onFavoriteToggled});
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +29,55 @@ class ExploreCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.35, // 35%
-              height: double.infinity,
-              color: Colors.grey[200],
-              child: Image.network(
-                'https://f.i.uol.com.br/fotografia/2024/02/08/170741929465c5269eeecc5_1707419294_3x2_md.jpg',
-                fit: BoxFit.contain,
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.35, // 35%
+                  height: double.infinity,
+                  color: Colors.grey[200],
+                  child: Image.network(
+                    'https://f.i.uol.com.br/fotografia/2024/02/08/170741929465c5269eeecc5_1707419294_3x2_md.jpg',
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
-            ),
+
+              Positioned(
+                top: 8,
+                left: 8,
+                child: GestureDetector(
+                  onTap: () async {
+                    await FavoriteHandlerService().toggleFavorite(
+                      context: context,
+                      event: event,
+                      onFavoriteToggled: onFavoriteToggled,
+                    );
+                  },
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      event.isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: Colors.red,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
 
           Expanded(

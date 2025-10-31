@@ -65,7 +65,14 @@ class _ExplorePage extends State<ExplorePage> {
                     itemCount: filteredEvents.length,
                     itemBuilder: (context, index) {
                       final event = filteredEvents[index];
-                      return ExploreCard(event: event);
+                      return ExploreCard(
+                        event: event,
+                        onFavoriteToggled: () {
+                          setState(() {
+                            event.isFavorite = !event.isFavorite;
+                          });
+                        },
+                      );
                     },
                   ),
           ),

@@ -3,7 +3,7 @@ import 'package:events_app/components/header_location.dart';
 import 'package:events_app/components/navbar.dart';
 import 'package:events_app/models/event.dart';
 import 'package:events_app/services/event.dart';
-import 'package:events_app/services/favorite.dart';
+import 'package:events_app/services/favorite_handler.dart';
 import 'package:flutter/material.dart';
 
 class EventSection extends StatefulWidget {
@@ -58,12 +58,7 @@ class _EventSectionState extends State<EventSection> {
         limit: 10,
       );
 
-      final favorites = await FavoriteService().getFavorites();
-      final favoriteIds = favorites.map((e) => e.id).toSet();
-
-      for (var event in newEvents) {
-        event.isFavorite = favoriteIds.contains(event.id);
-      }
+      FavoriteHandlerService().applyFavoritesToEvents(newEvents);
 
       setState(() {
         if (newEvents.isEmpty) {

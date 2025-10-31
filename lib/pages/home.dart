@@ -53,7 +53,10 @@ class _EventSectionState extends State<EventSection> {
 
     try {
       final eventService = EventService();
-      final newEvents = await eventService.getEvents(page: _currentPage);
+      final newEvents = await eventService.getEvents(
+        page: _currentPage,
+        limit: 10,
+      );
 
       final favorites = await FavoriteService().getFavorites();
       final favoriteIds = favorites.map((e) => e.id).toSet();
@@ -158,7 +161,7 @@ class _HomePage extends State<HomePage> {
   void initState() {
     super.initState();
     final eventsService = EventService();
-    eventsFuture = eventsService.getEvents();
+    eventsFuture = eventsService.getEvents(page: 1, limit: 10);
   }
 
   @override

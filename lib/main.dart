@@ -1,3 +1,4 @@
+import 'package:events_app/pages/event.dart';
 import 'package:events_app/pages/explore.dart';
 import 'package:events_app/pages/favorite.dart';
 import 'package:events_app/pages/home.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/explore': (context) => const ExplorePage(),
         '/favorite': (context) => const FavoritePage(),
+        '/event': (context) => const EventPage(),
       },
     );
   }

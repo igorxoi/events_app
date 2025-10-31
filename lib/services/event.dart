@@ -7,7 +7,7 @@ class EventService {
   final String baseUrl = Environment.baseUrl;
 
   Future<List<Event>> getEvents({int page = 1, int limit = 10}) async {
-    final uri = Uri.http(baseUrl, "/events", {
+    final uri = Uri.https(baseUrl, "/events", {
       "latitude": "-23.56045",
       "longitude": "-46.63811",
       "page": page.toString(),
@@ -30,7 +30,7 @@ class EventService {
     int page = 1,
     int limit = 10,
   }) async {
-    final uri = Uri.http(baseUrl, "/events/category/$category", {
+    final uri = Uri.https(baseUrl, "/events/category/$category", {
       "latitude": "-23.56045",
       "longitude": "-46.63811",
       "page": page.toString(),

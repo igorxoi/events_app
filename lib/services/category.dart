@@ -7,7 +7,7 @@ class CategoryService {
   final String baseUrl = Environment.baseUrl;
 
   Future<List<Category>> getCategorie() async {
-    final uri = Uri.http(baseUrl, "/categories", {
+    final uri = Uri.https(baseUrl, "/categories", {
       "latitude": "-23.56045",
       "longitude": "-46.63811",
       "page": "1",

@@ -171,8 +171,6 @@ class _HomePage extends State<HomePage> {
               child: Column(
                 children: [
                   EventSection(title: 'Próximos eventos', future: eventsFuture),
-                  EventSection(title: 'TEste', future: eventsFuture),
-                  EventSection(title: 'Teste', future: eventsFuture),
                 ],
               ),
             ),

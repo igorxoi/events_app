@@ -1,49 +1,34 @@
 import 'package:events_app/components/explore_card.dart';
 import 'package:events_app/components/header.dart';
 import 'package:events_app/models/event.dart';
-import 'package:events_app/services/event.dart';
+import 'package:events_app/services/favorite.dart';
 import 'package:events_app/services/favorite_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:events_app/components/navbar.dart';
 
-class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
+class FavoritePage extends StatefulWidget {
+  const FavoritePage({super.key});
 
   @override
-  State<ExplorePage> createState() => _ExplorePage();
+  State<FavoritePage> createState() => _FavoritePage();
 }
 
-class _ExplorePage extends State<ExplorePage> {
-  late Future<List<Event>> eventsByCategoryFuture;
-
-  List<Event> allEvents = [];
-  List<Event> filteredEvents = [];
-
-  int _selectedIndex = 1;
+class _FavoritePage extends State<FavoritePage> {
+  List<Event> events = [];
+  int _selectedIndex = 2;
 
   @override
   void initState() {
     super.initState();
-    _loadEvents(category: 1);
+    _loadEvents();
   }
 
-  void _loadEvents({required int category}) async {
-    final events = await EventService().getEventsByCategory(category: category);
-
-    FavoriteHandlerService().applyFavoritesToEvents(events);
+  void _loadEvents() async {
+    final favoriteEvents = await FavoriteService().getFavorites();
+    FavoriteHandlerService().applyFavoritesToEvents(favoriteEvents);
 
     setState(() {
-      allEvents = events ?? [];
-      filteredEvents = events ?? [];
-    });
-  }
-
-  void _filterEvents(String query) {
-    final lowerQuery = query.toLowerCase();
-    setState(() {
-      filteredEvents = allEvents
-          .where((event) => event.name.toLowerCase().contains(lowerQuery))
-          .toList();
+      events = favoriteEvents;
     });
   }
 
@@ -53,27 +38,27 @@ class _ExplorePage extends State<ExplorePage> {
       body: Column(
         children: [
           Header(
-            onCategorySelected: (selectedCategory) {
-              _loadEvents(category: selectedCategory);
-            },
-            onSearchTextChanged: _filterEvents,
+            title: 'Estes são seus eventos favoritos!',
+            subtitle: 'Recorde memórias e organize seus momentos de lazer.',
+            showFilters: false,
           ),
           Expanded(
-            child: filteredEvents.isEmpty
+            child: events.isEmpty
                 ? const Center(child: Text('Nenhum evento encontrado'))
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 32,
                       vertical: 16,
                     ),
-                    itemCount: filteredEvents.length,
+                    itemCount: events.length,
                     itemBuilder: (context, index) {
-                      final event = filteredEvents[index];
+                      final event = events[index];
                       return ExploreCard(
                         event: event,
                         onFavoriteToggled: () {
                           setState(() {
                             event.isFavorite = !event.isFavorite;
+                            _loadEvents();
                           });
                         },
                       );

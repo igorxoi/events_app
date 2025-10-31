@@ -1,4 +1,5 @@
 import 'package:events_app/pages/explore.dart';
+import 'package:events_app/pages/favorite.dart';
 import 'package:events_app/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/explore': (context) => const ExplorePage(),
+        '/favorite': (context) => const FavoritePage(),
       },
     );
   }

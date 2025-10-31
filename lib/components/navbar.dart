@@ -50,10 +50,8 @@ class Navbar extends StatelessWidget {
         route = '/explore';
         break;
       case 2:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Página de favoritos em construção')),
-        );
-        return;
+        route = '/favorite';
+        break;
     }
 
     if (ModalRoute.of(context)?.settings.name != route) {

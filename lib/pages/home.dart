@@ -3,6 +3,7 @@ import 'package:events_app/components/header_location.dart';
 import 'package:events_app/components/navbar.dart';
 import 'package:events_app/models/event.dart';
 import 'package:events_app/services/event.dart';
+import 'package:events_app/services/favorite.dart';
 import 'package:flutter/material.dart';
 
 class EventSection extends StatefulWidget {
@@ -49,14 +50,23 @@ class _EventSectionState extends State<EventSection> {
     setState(() {
       _isLoading = true;
     });
+
     try {
-      final movieService = EventService();
-      final newMovies = await movieService.getEvents(page: _currentPage);
+      final eventService = EventService();
+      final newEvents = await eventService.getEvents(page: _currentPage);
+
+      final favorites = await FavoriteService().getFavorites();
+      final favoriteIds = favorites.map((e) => e.id).toSet();
+
+      for (var event in newEvents) {
+        event.isFavorite = favoriteIds.contains(event.id);
+      }
+
       setState(() {
-        if (newMovies.isEmpty) {
+        if (newEvents.isEmpty) {
           _hasMore = false;
         } else {
-          _events.addAll(newMovies);
+          _events.addAll(newEvents);
           _currentPage++;
         }
       });
@@ -113,7 +123,16 @@ class _EventSectionState extends State<EventSection> {
                       margin: const EdgeInsets.only(left: 32),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [EventCard(event: event)],
+                        children: [
+                          EventCard(
+                            event: event,
+                            onFavoriteToggled: () {
+                              setState(() {
+                                event.isFavorite = !event.isFavorite;
+                              });
+                            },
+                          ),
+                        ],
                       ),
                     );
                   },

@@ -9,6 +9,7 @@ class Event {
   final String descricao;
   final String distance;
   final double distanceInMeters;
+  bool isFavorite;
 
   Event({
     required this.id,
@@ -21,6 +22,7 @@ class Event {
     required this.descricao,
     required this.distance,
     required this.distanceInMeters,
+    this.isFavorite = false,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) {

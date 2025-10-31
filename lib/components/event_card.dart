@@ -1,10 +1,12 @@
 import 'package:events_app/models/event.dart';
+import 'package:events_app/services/favorite.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
+  final VoidCallback? onFavoriteToggled;
 
-  const EventCard({super.key, required this.event});
+  const EventCard({super.key, required this.event, this.onFavoriteToggled});
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +70,7 @@ class EventCard extends StatelessWidget {
               ),
             ],
           ),
+
           Positioned(
             bottom: 42,
             right: 12,
@@ -81,7 +84,6 @@ class EventCard extends StatelessWidget {
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     getDay(event.date),
@@ -102,6 +104,54 @@ class EventCard extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ],
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 16,
+            right: 16,
+            child: GestureDetector(
+              onTap: () async {
+                if (event.isFavorite) {
+                  await FavoriteService().removeFavorite(event);
+                } else {
+                  await FavoriteService().addFavorite(event);
+                }
+
+                onFavoriteToggled?.call();
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      event.isFavorite
+                          ? "O evento ${event.name} foi adicionado aos favoritos!"
+                          : "O evento ${event.name} foi removido dos favoritos!",
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  event.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: Colors.red,
+                  size: 20,
+                ),
               ),
             ),
           ),

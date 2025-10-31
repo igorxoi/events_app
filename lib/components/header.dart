@@ -11,7 +11,7 @@ class Header extends StatefulWidget {
     super.key,
     required this.onCategorySelected,
     required this.onSearchTextChanged,
-    this.categorySelectedId = -1,
+    this.categorySelectedId = 1,
   });
 
   @override

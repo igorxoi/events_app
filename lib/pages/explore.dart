@@ -3,6 +3,7 @@ import 'package:events_app/components/header.dart';
 import 'package:events_app/models/event.dart';
 import 'package:events_app/services/event.dart';
 import 'package:flutter/material.dart';
+import 'package:events_app/components/navbar.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key});
@@ -13,8 +14,11 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePage extends State<ExplorePage> {
   late Future<List<Event>> eventsByCategoryFuture;
+
   List<Event> allEvents = [];
   List<Event> filteredEvents = [];
+
+  int _selectedIndex = 1;
 
   @override
   void initState() {
@@ -66,6 +70,14 @@ class _ExplorePage extends State<ExplorePage> {
                   ),
           ),
         ],
+      ),
+      bottomNavigationBar: Navbar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

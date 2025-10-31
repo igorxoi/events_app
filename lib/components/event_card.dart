@@ -60,7 +60,7 @@ class EventCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      event.address.neighborhood + ' - ' + event.address.state,
+                      "${event.address.neighborhood} - ${event.address.state}",
                       style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                     ),
                   ],

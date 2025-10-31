@@ -48,7 +48,6 @@ class ExploreCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Título
                   Text(
                     event.name,
                     overflow: TextOverflow.ellipsis,

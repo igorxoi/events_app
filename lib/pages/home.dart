@@ -1,5 +1,6 @@
 import 'package:events_app/components/event_card.dart';
 import 'package:events_app/components/header_location.dart';
+import 'package:events_app/components/navbar.dart';
 import 'package:events_app/models/event.dart';
 import 'package:events_app/services/event.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ class EventSection extends StatefulWidget {
 class _EventSectionState extends State<EventSection> {
   final ScrollController _scrollController = ScrollController();
   final List<Event> _events = [];
+
   int _currentPage = 1;
   bool _isLoading = false;
   bool _hasMore = true;
@@ -86,7 +88,7 @@ class _EventSectionState extends State<EventSection> {
           ),
         ),
         SizedBox(
-          height: 250,
+          height: 200,
           child: _events.isEmpty && _isLoading
               ? const Center(child: CircularProgressIndicator())
               : _events.isEmpty
@@ -130,6 +132,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  int _selectedIndex = 0;
   late final Future<List<Event>> eventsFuture;
 
   @override
@@ -145,15 +148,27 @@ class _HomePage extends State<HomePage> {
       body: Column(
         children: [
           HeaderLocation(),
-          SizedBox(height: 40),
-          EventSection(title: 'Proximos eventos', future: eventsFuture),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/explore');
-            },
-            child: const Text('Ir para Explore'),
+          SizedBox(height: 24),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  EventSection(title: 'Próximos eventos', future: eventsFuture),
+                  EventSection(title: 'TEste', future: eventsFuture),
+                  EventSection(title: 'Teste', future: eventsFuture),
+                ],
+              ),
+            ),
           ),
         ],
+      ),
+      bottomNavigationBar: Navbar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
       ),
     );
   }

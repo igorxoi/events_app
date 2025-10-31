@@ -1,39 +1,95 @@
 import 'package:flutter/material.dart';
 
 class Navbar extends StatelessWidget {
-  const Navbar({super.key});
+  final int selectedIndex;
+  final Function(int) onItemTapped;
+
+  const Navbar({
+    super.key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 12),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.4),
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.home, size: 24, color: Colors.blue),
-              SizedBox(height: 4),
-              Text('Home', style: TextStyle(fontSize: 12)),
-            ],
+          _buildNavItem(context, Icons.home_outlined, "Home", 0),
+          _buildNavItem(context, Icons.search, "Explorar", 1),
+          _buildNavItem(context, Icons.favorite_border, "Favoritos", 2),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToPage(BuildContext context, int index) {
+    String route = '/';
+
+    switch (index) {
+      case 0:
+        route = '/';
+        break;
+      case 1:
+        route = '/explore';
+        break;
+      case 2:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Página de favoritos em construção')),
+        );
+        return;
+    }
+
+    if (ModalRoute.of(context)?.settings.name != route) {
+      Navigator.pushReplacementNamed(context, route);
+    }
+  }
+
+  Widget _buildNavItem(
+    BuildContext context,
+    IconData icon,
+    String label,
+    int index,
+  ) {
+    final bool isSelected = index == selectedIndex;
+
+    return GestureDetector(
+      onTap: () {
+        onItemTapped(index);
+        _navigateToPage(context, index);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 24,
+            color: isSelected ? const Color(0xFF2196F3) : Colors.black,
           ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.search, size: 24, color: Colors.blue),
-              SizedBox(height: 4),
-              Text('Search', style: TextStyle(fontSize: 12)),
-            ],
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Icon(Icons.favorite, size: 24, color: Colors.blue),
-              SizedBox(height: 4),
-              Text('Favorites', style: TextStyle(fontSize: 12)),
-            ],
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: isSelected ? const Color(0xFF2196F3) : Colors.black,
+            ),
           ),
         ],
       ),

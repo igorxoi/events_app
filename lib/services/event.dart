@@ -1,28 +1,26 @@
-import 'dart:convert';
-import 'package:events_app/config/environment.dart';
 import 'package:events_app/models/event.dart';
-import 'package:http/http.dart' as http;
+import 'package:events_app/mocks/events_mock.dart';
 
 class EventService {
-  final String baseUrl = Environment.baseUrl;
-
   Future<List<Event>> getEvents({int page = 1, int limit = 10}) async {
-    final uri = Uri.https(baseUrl, "/events", {
-      "latitude": "-23.56045",
-      "longitude": "-46.63811",
-      "page": page.toString(),
-      "limit": limit.toString(),
-    });
+    return Future.delayed(
+      const Duration(milliseconds: 800),
+      () => getMockedEvents(),
+    );
+  }
 
-    final response = await http.get(uri);
+  Future<List<Event>> getTrendingEvents({int page = 1, int limit = 10}) async {
+    return Future.delayed(
+      const Duration(milliseconds: 800),
+      () => getMockedTrendingEvents(),
+    );
+  }
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List eventsJson = data["data"];
-      return eventsJson.map((json) => Event.fromJson(json)).toList();
-    } else {
-      throw Exception("Erro ao buscar os eventos: ${response.statusCode}");
-    }
+  Future<List<Event>> getUpcomingEvents({int page = 1, int limit = 10}) async {
+    return Future.delayed(
+      const Duration(milliseconds: 800),
+      () => getMockedUpcomingEvents(),
+    );
   }
 
   Future<List<Event>> getEventsByCategory({
@@ -30,21 +28,11 @@ class EventService {
     int page = 1,
     int limit = 10,
   }) async {
-    final uri = Uri.https(baseUrl, "/events/category/$category", {
-      "latitude": "-23.56045",
-      "longitude": "-46.63811",
-      "page": page.toString(),
-      "limit": limit.toString(),
-    });
-
-    final response = await http.get(uri);
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List eventsJson = data["data"];
-      return eventsJson.map((json) => Event.fromJson(json)).toList();
-    } else {
-      throw Exception("Erro ao buscar os eventos: ${response.statusCode}");
-    }
+    return Future.delayed(
+      const Duration(milliseconds: 800),
+      () => getMockedEvents()
+          .where((event) => event.categoryId == category)
+          .toList(),
+    );
   }
 }

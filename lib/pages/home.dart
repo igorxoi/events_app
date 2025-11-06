@@ -28,7 +28,8 @@ class _EventSectionState extends State<EventSection> {
   @override
   void initState() {
     super.initState();
-    _fetchEvents();
+    // first try to load the provided future (useful for mocked data)
+    _loadInitialFromFuture();
     _scrollController.addListener(_onScroll);
   }
 
@@ -73,6 +74,33 @@ class _EventSectionState extends State<EventSection> {
       setState(() {
         _hasMore = false;
       });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _loadInitialFromFuture() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final initial = await widget.future;
+      FavoriteHandlerService().applyFavoritesToEvents(initial);
+
+      setState(() {
+        if (initial.isEmpty) {
+          _hasMore = false;
+        } else {
+          _events.addAll(initial);
+          // since we already loaded page 1 (or a chunk), start fetching from page 2
+          _currentPage = 2;
+        }
+      });
+    } catch (e) {
+      // ignore - keep existing behavior of trying to fetch later
     } finally {
       setState(() {
         _isLoading = false;
@@ -151,13 +179,85 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   int _selectedIndex = 0;
-  late final Future<List<Event>> eventsFuture;
+  // Use Futures for each section. Initialize with mocked data to avoid
+  // late-initialization errors and to make the UI show predictable content.
+  late Future<List<Event>> trendingEventsFuture;
+  late Future<List<Event>> upcomingEventsFuture;
+  late Future<List<Event>> allEventsFuture;
+
+  List<Event> _mockEvents() {
+    final address1 = Address(
+      zipCode: '01000-000',
+      street: 'Av. Paulista',
+      number: '1000',
+      logradouro: 'Av. Paulista',
+      neighborhood: 'Bela Vista',
+      city: 'São Paulo',
+      state: 'SP',
+      latitude: -23.561414,
+      longitude: -46.655881,
+    );
+
+    final address2 = Address(
+      zipCode: '20000-000',
+      street: 'Rua das Flores',
+      number: '250',
+      logradouro: 'Rua das Flores',
+      neighborhood: 'Centro',
+      city: 'Rio de Janeiro',
+      state: 'RJ',
+      latitude: -22.906846,
+      longitude: -43.172896,
+    );
+
+    return [
+      Event(
+        id: 1,
+        categoryId: 1,
+        name: 'Show de Jazz no Parque',
+        startTime: '19:00',
+        endTime: '22:00',
+        date: '2025-11-20',
+        address: address1,
+        descricao: 'Uma noite de jazz ao ar livre com artistas locais.',
+        distance: '2,5 km',
+        distanceInMeters: 2500.0,
+      ),
+      Event(
+        id: 2,
+        categoryId: 2,
+        name: 'Feira de Tecnologia',
+        startTime: '09:00',
+        endTime: '18:00',
+        date: '2025-11-22',
+        address: address2,
+        descricao: 'Principais novidades em tecnologia e inovação.',
+        distance: '5,0 km',
+        distanceInMeters: 5000.0,
+      ),
+      Event(
+        id: 3,
+        categoryId: 3,
+        name: 'Stand-up Comedy',
+        startTime: '21:00',
+        endTime: '23:00',
+        date: '2025-11-25',
+        address: address1,
+        descricao: 'Os melhores comediantes da região no mesmo palco.',
+        distance: '3,2 km',
+        distanceInMeters: 3200.0,
+      ),
+    ];
+  }
 
   @override
   void initState() {
     super.initState();
-    final eventsService = EventService();
-    eventsFuture = eventsService.getEvents(page: 1, limit: 10);
+    // initialize futures with mocked data so they are always defined
+    final mock = _mockEvents();
+    trendingEventsFuture = Future.value(mock);
+    upcomingEventsFuture = Future.value(mock.reversed.toList());
+    allEventsFuture = Future.value(mock);
   }
 
   @override
@@ -171,7 +271,17 @@ class _HomePage extends State<HomePage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  EventSection(title: 'Próximos eventos', future: eventsFuture),
+                  EventSection(title: 'Em Alta', future: trendingEventsFuture),
+                  SizedBox(height: 32),
+                  EventSection(
+                    title: 'Próximos Eventos',
+                    future: upcomingEventsFuture,
+                  ),
+                  SizedBox(height: 32),
+                  EventSection(
+                    title: 'Todos os Eventos',
+                    future: allEventsFuture,
+                  ),
                 ],
               ),
             ),
